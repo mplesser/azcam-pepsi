@@ -1,0 +1,1 @@
+python C:\azcam\azcam-mont4k\bin\start_server.py -system RTS2

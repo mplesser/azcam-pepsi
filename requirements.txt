@@ -1,0 +1,13 @@
+numpy
+ipython
+matplotlib
+scipy
+flask
+PySide2
+psutil
+
+-e genpars
+-e azcam
+-e focus
+-e observe
+-e obstool

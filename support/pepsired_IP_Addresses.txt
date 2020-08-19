@@ -1,0 +1,3 @@
+PEPSI_RED Archon CCD Controller IP Address 10.0.1.1
+This PC External IP Address 192.168.164.24
+This PC Internal IP Address 10.0.1.24
