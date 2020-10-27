@@ -2,9 +2,10 @@
 
 import os
 
+import system_config as config
+
 import azcam
 import azcam.azcamconsole
-import system_config as config
 
 azcam.db.verbosity = config.verbosity
 

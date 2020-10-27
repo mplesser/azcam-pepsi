@@ -1,17 +1,18 @@
-import os
 import datetime
+import os
+
+import system_config as config
 
 import azcam
 import azcam.azcamserver
-from azcam.ds9display import Ds9Display
-from azcam.azcamserver.telescopes.telescope import Telescope
-from azcam.azcamserver.systemheader import SystemHeader
-from azcam.azcamserver.controllers.controller_archon import ControllerArchon
-from azcam.azcamserver.instruments.instrument import Instrument
-from azcam.azcamserver.tempcons.tempcon import TempCon
-from azcam.azcamserver.exposures.exposure_archon import ExposureArchon
 from azcam.azcamserver.cmdserver import CommandServer
-import system_config as config
+from azcam.azcamserver.controllers.controller_archon import ControllerArchon
+from azcam.azcamserver.exposures.exposure_archon import ExposureArchon
+from azcam.azcamserver.instruments.instrument import Instrument
+from azcam.azcamserver.systemheader import SystemHeader
+from azcam.azcamserver.telescopes.telescope import Telescope
+from azcam.azcamserver.tempcons.tempcon import TempCon
+from azcam.ds9display import Ds9Display
 
 azcam.db.verbosity = config.verbosity
 
