@@ -27,7 +27,7 @@ class Pepsi(object):
 
     def reset(self):
         """
-        Reset camera. 
+        Reset camera.
         """
 
         reply = azcam.api.reset()
@@ -36,7 +36,7 @@ class Pepsi(object):
 
     def open(self):
         """
-        Open controller shutter. 
+        Open controller shutter.
         """
 
         reply = azcam.api.set_shutter(1, 0)
@@ -45,7 +45,7 @@ class Pepsi(object):
 
     def close(self):
         """
-        Close controller shutter. 
+        Close controller shutter.
         """
 
         reply = azcam.api.set_shutter(0, 0)
@@ -54,7 +54,7 @@ class Pepsi(object):
 
     def totalcount(self):
         """
-        Pixels in image. 
+        Pixels in image.
         """
         reply = azcam.api.get_par("numpiximage")
 
@@ -83,7 +83,7 @@ class Pepsi(object):
     ) -> typing.Optional[str]:
         """
         Make a complete exposure.
-        
+
         :param exposure_time: the exposure time in seconds
         :param image_type: type of exposure ('zero', 'object', 'flat', ...)
         :param image_title: image title, usually surrounded by double quotes.
@@ -98,7 +98,9 @@ class Pepsi(object):
         Send local temp image to remote image server.
         """
 
-        azcam.utils.get_object("exposure").image.send_image(f"{self.exposure.temp_image_file}.fits")
+        azcam.utils.get_object("exposure").image.send_image(
+            f"{self.exposure.temp_image_file}.fits"
+        )
 
         return
 
@@ -106,7 +108,7 @@ class Pepsi(object):
         """
         Stop current integration and readout.
         """
-        
+
         self.exposure.start_readout()
 
         return
@@ -124,26 +126,25 @@ class Pepsi(object):
         """
         Return current number of pixels remaing in readout.
         """
-        
+
         reply = self.exposure.get_pixels_remaining()
 
         return reply
-        
-        
+
     def pixelcount(self):
         """
-        Pixels remaing until readout is finished. 
+        Pixels remaing until readout is finished.
         """
-        
+
         reply = self.get_pixels_remaining()
 
         return reply
 
     def get_exposuretime_remaining(self):
         """
-        Return exposure time remaining in intration in seconds. 
+        Return exposure time remaining in intration in seconds.
         """
-        
+
         reply = self.exposure.get_exposuretime_remaining()
 
         return float(reply)

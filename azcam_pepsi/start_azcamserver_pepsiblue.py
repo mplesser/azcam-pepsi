@@ -26,7 +26,7 @@ elif config.servermode == "server":
     interactive = ""
 else:
     interactive = ""
-xmode = f'InteractiveShell.xmode={config.xmode}'
+xmode = f"InteractiveShell.xmode={config.xmode}"
 cl = f'{ipython} --profile {profile} --profile-dir={profiledir} --{xmode} --TerminalInteractiveShell.term_title_format={profile} {interactive} -c "{config.server_cmd_blue}"'
 
 os.system(cl)

@@ -109,7 +109,7 @@ exposure.display_image = 0
 remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
 exposure.set_remote_server(remote_imageserver_host, remote_imageserver_port)
-#exposure.set_remote_server()
+# exposure.set_remote_server()
 
 # ****************************************************************
 # header
@@ -125,12 +125,11 @@ def update_header():
 
     return
 
-template = f'{azcam.db.datafolder}/templates/FitsTemplate_pepsiblue.txt'
+
+template = f"{azcam.db.datafolder}/templates/FitsTemplate_pepsiblue.txt"
 system = SystemHeader("pepsiblue", template)
 azcam.utils.set_header("system", system)
-system.update_header = (
-    update_header
-)  # update system header info for each exposure
+system.update_header = update_header  # update system header info for each exposure
 
 # ****************************************************************
 # detector
@@ -175,7 +174,7 @@ if config.start_webapp:
 # finish
 # ****************************************************************
 azcam.utils.log("Configuration complete")
-    
+
 # ****************************************************************
 # debug and testing
 # ****************************************************************
@@ -184,6 +183,7 @@ def test():
     azcam.utils.log("Running debug mode commands")
 
     return
+
 
 # debug
 if config.test_mode:

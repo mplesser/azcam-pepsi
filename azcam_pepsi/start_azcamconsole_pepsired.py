@@ -15,6 +15,6 @@ profile = config.console_profile
 profiledir = f"{config.datafolder_root_red}/azcam/profiles/{profile}"
 
 # run ipython in current process window
-xmode = f'InteractiveShell.xmode={config.xmode}'
+xmode = f"InteractiveShell.xmode={config.xmode}"
 cl = f'{ipython} --profile {profile} --profile-dir={profiledir} --{xmode} --TerminalInteractiveShell.term_title_format={profile} -i -c "{config.console_cmd_red}"'
 os.system(cl)

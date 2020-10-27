@@ -124,12 +124,11 @@ def update_header():
 
     return
 
-template = f'{azcam.db.datafolder}/templates/FitsTemplate_pepsired.txt'
+
+template = f"{azcam.db.datafolder}/templates/FitsTemplate_pepsired.txt"
 system = SystemHeader("pepsired", template)
 azcam.utils.set_header("system", system)
-system.update_header = (
-    update_header
-)  # update system header info for each exposure
+system.update_header = update_header  # update system header info for each exposure
 
 # ****************************************************************
 # detector
@@ -183,6 +182,7 @@ def test():
     azcam.utils.log("Running debug mode commands")
 
     return
+
 
 # test mode
 if config.test_mode:

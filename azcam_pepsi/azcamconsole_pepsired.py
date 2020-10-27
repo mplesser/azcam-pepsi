@@ -41,6 +41,7 @@ azcam.utils.config_ipython()
 # display
 # ****************************************************************
 from azcam.ds9display import Ds9Display
+
 display = Ds9Display()
 azcam.db.objects["display"] = display
 setattr(azcam, "display", display)
@@ -66,7 +67,7 @@ if config.readparfile:
 # finish
 # ****************************************************************
 azcam.utils.log("Configuration complete")
-    
+
 # ****************************************************************
 # debug and testing
 # ****************************************************************
@@ -76,11 +77,12 @@ def test(self):
     exposure = azcam.utils.get_object("exposure")
     instrument = azcam.utils.get_object("instrument")
     tempcon = azcam.utils.get_object("tempcon")
-    
+
+
 # test mode
 if config.test_mode:
     test()
-    
+
 # for debugger only
 if 0:
     test()
