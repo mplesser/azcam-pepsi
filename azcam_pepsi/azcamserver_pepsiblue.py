@@ -8,7 +8,7 @@ import azcam.azcamserver
 from azcam.azcamserver.cmdserver import CommandServer
 from azcam.azcamserver.controllers.controller_archon import ControllerArchon
 from azcam.azcamserver.exposures.exposure_archon import ExposureArchon
-from azcam.azcamserver.instruments.instrument import Instrument
+from azcam.instrument import Instrument
 from azcam.azcamserver.systemheader import SystemHeader
 from azcam.azcamserver.telescopes.telescope import Telescope
 from azcam.azcamserver.tempcons.tempcon import TempCon

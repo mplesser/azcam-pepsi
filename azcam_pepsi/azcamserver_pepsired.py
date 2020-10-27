@@ -4,15 +4,15 @@ import os
 import system_config as config
 
 import azcam
-import azcam.azcamserver
-from azcam.azcamserver.cmdserver import CommandServer
-from azcam.azcamserver.controllers.controller_archon import ControllerArchon
-from azcam.azcamserver.exposures.exposure_archon import ExposureArchon
-from azcam.azcamserver.instruments.instrument import Instrument
-from azcam.azcamserver.systemheader import SystemHeader
-from azcam.azcamserver.telescopes.telescope import Telescope
-from azcam.azcamserver.tempcons.tempcon import TempCon
-from azcam.ds9display import Ds9Display
+from azcam import server
+from azcam.cmdserver import CommandServer
+from azcam_archon.controller_archon import ControllerArchon
+from azcam_archon.exposure_archon import ExposureArchon
+from azcam.instrument import Instrument
+from azcam.header import Header
+from azcam.telescope import Telescope
+from azcam.tempcon import TempCon
+from azcam_ds9.ds9display import Ds9Display
 
 azcam.db.verbosity = config.verbosity
 
@@ -127,14 +127,14 @@ def update_header():
 
 
 template = f"{azcam.db.datafolder}/templates/FitsTemplate_pepsired.txt"
-system = SystemHeader("pepsired", template)
-azcam.utils.set_header("system", system)
+system = Header("pepsired", template)
+azcam.utils.set_header("system", 0)
 system.update_header = update_header  # update system header info for each exposure
 
 # ****************************************************************
 # detector
 # ****************************************************************
-from detector_sta1600_pepsi import detector_sta1600
+from .detector_sta1600_pepsi import detector_sta1600
 
 detector_sta1600["ctype"] = ["LINEAR", "LINEAR"]
 exposure.set_detpars(detector_sta1600)
