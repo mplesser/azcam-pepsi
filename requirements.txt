@@ -1,13 +1,4 @@
-numpy
-ipython
-matplotlib
-scipy
-flask
-PySide2
-psutil
-
--e genpars
--e azcam
--e focus
--e observe
--e obstool
+ipython 
+-e /azcam/azcam
+-e /azcam/azcam-ds9
+-e .
