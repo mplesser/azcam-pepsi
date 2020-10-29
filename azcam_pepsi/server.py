@@ -1,69 +1,64 @@
 import datetime
 import os
+import sys
 
-import system_config as config
-
-import azcam
-from azcam import server
+from azcam.server import azcam
+import azcam.shortcuts
 from azcam.cmdserver import CommandServer
+from azcam.genpars import GenPars
+from azcam.header import Header
+from azcam.instrument import Instrument
+from azcam.telescope import Telescope
 from azcam_archon.controller_archon import ControllerArchon
 from azcam_archon.exposure_archon import ExposureArchon
-from azcam.instrument import Instrument
-from azcam.header import Header
-from azcam.telescope import Telescope
-from azcam.tempcon import TempCon
+from azcam_archon.tempcon_archon import TempConArchon
 from azcam_ds9.ds9display import Ds9Display
-
-azcam.db.verbosity = config.verbosity
-
-systemname = "pepsired"
-azcam.db.systemname = systemname
-
-systemfolder = azcam.utils.fix_path(os.path.dirname(__file__))
-azcam.utils.add_searchfolder(systemfolder, 0)
-azcam.db.systemfolder = systemfolder
-
-datafolder = config.datafolder_root_red
-azcam.db.datafolder = datafolder
-
-parfile = f"{datafolder}/azcam/parameters_{systemname}.ini"
-azcam.db.parfile = parfile
+from azcam_pepsi.detector_sta1600_pepsi import detector_sta1600
+from azcam_pepsi.pepsi_custom import Pepsi
 
 # ****************************************************************
-# start logging
+# parse command line arguments
 # ****************************************************************
-logfile = os.path.join(datafolder, "azcam/logs", "azcamserver.log")
-logfile = azcam.utils.fix_path(logfile)
-azcam.utils.start_logging(logfile)
-azcam.utils.log(f"Configuring azcamserver for {systemname}")
+try:
+    i = sys.argv.index("-system")
+    sysname = sys.argv[i + 1]
+except ValueError:
+    sysname = "pepsiblue"
 
 # ****************************************************************
-# common assets
+# define folders for system
 # ****************************************************************
-azcam.utils.add_searchfolder(config.commonfolder)
+azcam.db.systemname = sysname
+azcam.db.systemfolder = os.path.dirname(__file__)
+azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
+azcam.db.datafolder = os.path.join("/data", azcam.db.systemname)
+azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
+azcam.db.verbosity = 2  # useful for controller status
+azcam.db.parfile = os.path.join(
+    azcam.db.datafolder, f"parameters_{azcam.db.systemname}.ini"
+)
+
+# ****************************************************************
+# enable logging
+# ****************************************************************
+tt = datetime.datetime.strftime(datetime.datetime.now(), "%d%b%y_%H%M%S")
+azcam.db.logfile = os.path.join(azcam.db.datafolder, "logs", f"server_{tt}.log")
+azcam.logging.start_logging(azcam.db.logfile, "123")
+azcam.log(f"Configuring {azcam.db.systemname}")
+
+# ****************************************************************
+# define and start command server
+# ****************************************************************
+cmdserver = CommandServer()
+cmdserver.port = 2402
+azcam.log(f"Starting command server listening on port {cmdserver.port}")
+# cmdserver.welcome_message = "Welcome - azcam-itl server"
+cmdserver.start()
 
 # ****************************************************************
 # display
 # ****************************************************************
 display = Ds9Display()
-azcam.db.objects["display"] = display
-setattr(azcam, "display", display)
-display.initialize()
-del azcam.ds9display
-
-# ****************************************************************
-# ipython config
-# ****************************************************************
-azcam.utils.config_ipython()
-
-# ****************************************************************
-# command server
-# ****************************************************************
-cmdserver = CommandServer()
-cmdserver.port = 2422  # note port!
-azcam.db.cmdserver = cmdserver
-azcam.utils.log(f"Starting command server listening on port {cmdserver.port}")
-cmdserver.start()
 
 # ****************************************************************
 # controller
@@ -71,29 +66,34 @@ cmdserver.start()
 controller = ControllerArchon()
 azcam.db.controller = controller
 controller.camserver.port = 4242
-# controller.camserver.host = "10.0.0.2"
-controller.camserver.host = "10.0.1.1"
-controller.timing_file = os.path.join(
-    systemfolder, "archon_code", "pepsired_100KHz.acf"
-)
+
+if sysname == "pepsired":
+    controller.camserver.host = "10.0.1.1"
+    controller.timing_file = os.path.join(
+        azcam.db.systemfolder, "archon_code", "pepsired_100KHz.acf"
+    )
+elif sysname == "pepsiblue":
+    controller.camserver.host = "10.0.2.2"
+    controller.timing_file = os.path.join(
+        azcam.db.systemfolder, "archon_code", "pepsiblue_100KHz.acf"
+    )
 controller.reset_flag = 1  # reset by uploading code
 
 # ****************************************************************
 # instrument
 # ****************************************************************
 instrument = Instrument()
-azcam.db.instrument = instrument
 
 # ****************************************************************
 # temperature controller
 # ****************************************************************
-tempcon = TempCon()
-azcam.db.tempcon = tempcon
+tempcon = TempConArchon()
+controller.heater_board_installed = 1
 
 # ****************************************************************
 # dewar
 # ****************************************************************
-controller.header.set_keyword("DEWAR", "pepsired", "Dewar name")
+controller.header.set_keyword("DEWAR", azcam.db.systemname, "Dewar name")
 
 # ****************************************************************
 # exposure
@@ -103,39 +103,26 @@ exposure = ExposureArchon()
 azcam.db.exposure = exposure
 exposure.filetype = azcam.db.filetypes[filetype]
 exposure.image.filetype = azcam.db.filetypes[filetype]
-exposure.aztime.sntp.servers = ["time.nist.gov"]
-exposure.display_image = 0
+exposure.display_image = 1
 # remote_imageserver_host = "192.168.164.14"
-remote_imageserver_host = "10.0.1.11"
+remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
 exposure.set_remote_server(remote_imageserver_host, remote_imageserver_port)
 # exposure.set_remote_server()
+exposure.filename.folder = azcam.db.datafolder
 
 # ****************************************************************
 # header
 # ****************************************************************
-def update_header():
-    """
-    Update header, reading current data.
-    """
-
-    # make custom changes
-    if enabled:
-        pass
-
-    return
-
-
-template = f"{azcam.db.datafolder}/templates/FitsTemplate_pepsired.txt"
-system = Header("pepsired", template)
-azcam.utils.set_header("system", 0)
-system.update_header = update_header  # update system header info for each exposure
+template = os.path.join(
+    azcam.db.datafolder, "templates", f"fits_template_{azcam.db.systemname}.txt"
+)
+sysheader = Header(azcam.db.systemname, template)
+sysheader.set_header("system", 0)
 
 # ****************************************************************
 # detector
 # ****************************************************************
-from .detector_sta1600_pepsi import detector_sta1600
-
 detector_sta1600["ctype"] = ["LINEAR", "LINEAR"]
 exposure.set_detpars(detector_sta1600)
 exposure.fileconverter.set_detector_config(detector_sta1600)
@@ -144,51 +131,42 @@ sc = 1.0  # ChangeMe
 exposure.image.focalplane.wcs.scale1 = 16 * [sc]
 exposure.image.focalplane.wcs.scale2 = 16 * [sc]
 
-from pepsi import Pepsi
-
-pepsi = Pepsi()
-azcam.utils.set_object("pepsi", pepsi)
-
 # ****************************************************************
 # telescope
 # ****************************************************************
 telescope = Telescope()
 telescope.enabled = 0
-azcam.utils.set_object("telescope", telescope)
 
 # ****************************************************************
 # read par file
 # ****************************************************************
-if config.readparfile:
-    azcam.api.parfile_read(parfile)
+genpars = GenPars()
+pardict = genpars.parfile_read(azcam.db.parfile)["azcamserver"]
+azcam.utils.update_pars(0, pardict)
+wd = genpars.get_par(pardict, "wd", "default")
+azcam.utils.curdir(wd)
 
 # ****************************************************************
-# apps
+# custom commands
 # ****************************************************************
-if config.start_azcamtool:
-    import start_azcamtool
-if config.start_webapp:
-    import start_webapp
+pepsi = Pepsi()
+
+# ****************************************************************
+# web server
+# ****************************************************************
+from azcam.webserver.web_server import WebServer
+
+webserver = WebServer()
+
+webserver.start()
+
+# ****************************************************************
+# GUIs
+# ****************************************************************
+if 1:
+    import azcam_pepsi.start_azcamtool
 
 # ****************************************************************
 # finish
 # ****************************************************************
-azcam.utils.log("Configuration complete")
-
-# ****************************************************************
-# debug and testing
-# ****************************************************************
-def test():
-
-    azcam.utils.log("Running debug mode commands")
-
-    return
-
-
-# test mode
-if config.test_mode:
-    test()
-
-# debugger only
-if 0:
-    test()
+azcam.log("Configuration complete")

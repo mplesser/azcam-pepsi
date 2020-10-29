@@ -1,5 +1,5 @@
 """
-Script to start an azcamconsole application.
+Script to start azcamserver.
 
 Usage: Execute this file from File Explorer
 """
@@ -16,13 +16,12 @@ interactive = "-i"  # "-i" or ""
 if len(sys.argv) > 1:
     arguments = sys.argv[1:]
 else:
-    arguments = [""]
-    # arguments = ["-system VIRUS"]
+    arguments = ["-system pepsiblue"]
     # arguments = ["-system VIRUS -data \data"]
 
-configscript = "azcam_pepsi.console"
+configscript = "azcam_pepsi.server"
 
-profile = "azcamconsole"
+profile = "azcamserver"
 import_command = f"import {configscript}; from azcam.cli import *"
 
 # execute

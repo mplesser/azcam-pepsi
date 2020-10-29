@@ -1,34 +1,28 @@
 """
-Example script to start an azcam application.
+Script to start azcamserver.
 
 Usage: Execute this file from File Explorer
 """
 
 import os
 import sys
-from pathlib import Path, PurePosixPath
-
-rootfolder = Path(__file__).resolve().parent.parent
-rootfolder = rootfolder / "azcam_mont4k"
-rootfolder = str(PurePosixPath(rootfolder))
 
 # select which python to use (virtual environments)
-python = "ipython.exe"
+# python = "/data/code/venvs/qt/Scripts/ipython.exe"
+python = "/python38/Scripts/ipython.exe"
 interactive = "-i"  # "-i" or ""
 
 # parse arguments for command script
 if len(sys.argv) > 1:
-    # arguments = ["-system VIRUS -data \data"]
     arguments = sys.argv[1:]
 else:
-    arguments = [""]
+    arguments = ["-system pepsired"]
+    # arguments = ["-system VIRUS -data \data"]
+
+configscript = "azcam_pepsi.server"
 
 profile = "azcamserver"
-
-import_command = (
-    f"sys.path.append('{rootfolder}');"
-    f"import azcam_mont4k_server; from azcam.cli import *"
-)
+import_command = f"import {configscript}; from azcam.cli import *"
 
 # execute
 cl = (

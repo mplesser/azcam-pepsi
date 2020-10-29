@@ -1,0 +1,1 @@
+python C:\azcam\azcam-pepsi\bin\start_server_pepsiblue.py

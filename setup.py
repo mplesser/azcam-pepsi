@@ -6,15 +6,14 @@ with open("README.md", "r") as fh:
 requirements = [
     "ipython",
     "azcam",
+    "azcam-archon",
     "azcam-ds9",
-    "azcam-focus",
-    "azcam-observe",
 ]
 
 setup(
-    name="azcam-bok",
-    version="20.3",
-    description="azcam environment for Bok systems",
+    name="azcam-pepsi",
+    version="20.1",
+    description="azcam environment for PEPSI",
     long_description=long_description,
     author="Michael Lesser",
     author_email="mlesser@arizona.edu",

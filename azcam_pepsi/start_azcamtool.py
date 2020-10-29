@@ -1,11 +1,9 @@
+# start AzCamTool
 import os
 
-# absolute path
-folder = "\\azcam\\azcamtool"
+import azcam
 
-# relative path
-# folder = os.path.normpath((os.path.dirname(__file__)))
-
-exe = f"{folder}\\azcamtool\\builds\\azcamtool.exe"
-s = "start %s -s localhost -p 2402" % exe
+# use absolute path here
+exe = "c:\\azcam\\azcam-tool\\azcam_tool\\builds\\azcamtool.exe"
+s = f"start {exe} -s localhost -p {azcam.db.cmdserver.port}"
 os.system(s)
