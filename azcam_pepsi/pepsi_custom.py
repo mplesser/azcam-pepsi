@@ -2,6 +2,7 @@
 Contains the Pepsi class.
 """
 
+
 import typing
 
 import azcam
@@ -28,7 +29,7 @@ class Pepsi(object):
         Initialize AzCam system.
         """
 
-        azcam.db.exposure.reset()
+        azcam.api.exposure.reset()
 
         return
 
@@ -37,7 +38,7 @@ class Pepsi(object):
         Reset exposure.
         """
 
-        azcam.db.exposure.reset()
+        azcam.api.exposure.reset()
 
         return
 
@@ -46,7 +47,7 @@ class Pepsi(object):
         Open controller shutter.
         """
 
-        reply = azcam.db.exposure.set_shutter(1, 0)
+        reply = azcam.api.exposure.set_shutter(1, 0)
 
         return reply
 
@@ -55,7 +56,7 @@ class Pepsi(object):
         Close controller shutter.
         """
 
-        reply = azcam.db.exposure.set_shutter(0, 0)
+        reply = azcam.api.exposure.set_shutter(0, 0)
 
         return reply
 
@@ -63,7 +64,7 @@ class Pepsi(object):
         """
         Pixels in image.
         """
-        reply = azcam.db.exposure.get_par("numpiximage")
+        reply = azcam.api.exposure.get_par("numpiximage")
 
         return reply
 
@@ -96,7 +97,7 @@ class Pepsi(object):
         :param image_title: image title, usually surrounded by double quotes.
         """
 
-        reply = azcam.db.exposure.expose1(exposure_time, image_type, image_title)
+        reply = azcam.api.exposure.expose1(exposure_time, image_type, image_title)
 
         return reply
 
@@ -105,7 +106,7 @@ class Pepsi(object):
         Send local temp image to remote image server.
         """
 
-        azcam.db.exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
+        azcam.api.exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
 
         return
 
@@ -123,7 +124,7 @@ class Pepsi(object):
         Stop current integration and readout.
         """
 
-        azcam.db.exposure.abort()
+        azcam.api.exposure.abort()
 
         return
 
