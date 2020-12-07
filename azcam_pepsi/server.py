@@ -6,7 +6,7 @@ from azcam.server import azcam
 import azcam.shortcuts
 from azcam.cmdserver import CommandServer
 from azcam.genpars import GenPars
-from azcam.header import Header
+from azcam.system import System
 from azcam.instrument import Instrument
 from azcam.telescope import Telescope
 
@@ -43,8 +43,8 @@ azcam.db.parfile = os.path.join(
 # enable logging
 # ****************************************************************
 tt = datetime.datetime.strftime(datetime.datetime.now(), "%d%b%y_%H%M%S")
-azcam.db.logfile = os.path.join(azcam.db.datafolder, "logs", f"server_{tt}.log")
-azcam.logging.start_logging(azcam.db.logfile, "123")
+azcam.db.logger.logfile = os.path.join(azcam.db.datafolder, "logs", f"server_{tt}.log")
+azcam.db.logger.start_logging(azcam.db.logger.logfile, "123")
 azcam.log(f"Configuring {azcam.db.systemname}")
 
 # ****************************************************************
@@ -92,11 +92,6 @@ tempcon = TempConArchon()
 controller.heater_board_installed = 1
 
 # ****************************************************************
-# dewar
-# ****************************************************************
-controller.header.set_keyword("DEWAR", azcam.db.systemname, "Dewar name")
-
-# ****************************************************************
 # exposure
 # ****************************************************************
 filetype = "MEF"
@@ -118,8 +113,7 @@ exposure.filename.folder = azcam.db.datafolder
 template = os.path.join(
     azcam.db.datafolder, "templates", f"fits_template_{azcam.db.systemname}.txt"
 )
-sysheader = Header(azcam.db.systemname, template)
-sysheader.set_header("system", 0)
+system = System(azcam.db.systemname, template)
 
 # ****************************************************************
 # detector

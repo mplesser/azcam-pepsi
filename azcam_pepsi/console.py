@@ -26,8 +26,8 @@ azcam.db.parfile = f"{azcam.db.datafolder}/parameters_{azcam.db.systemname}.ini"
 # start logging
 # ****************************************************************
 tt = datetime.datetime.strftime(datetime.datetime.now(), "%d%b%y_%H%M%S")
-azcam.db.logfile = os.path.join(azcam.db.datafolder, "logs", f"console_{tt}.log")
-azcam.logging.start_logging(azcam.db.logfile)
+azcam.db.logger.logfile = os.path.join(azcam.db.datafolder, "logs", f"console_{tt}.log")
+azcam.db.logger.start_logging()
 azcam.log(f"Configuring console for {azcam.db.systemname}")
 
 # ****************************************************************
@@ -40,7 +40,11 @@ dthread.start()  # thread just for speed
 # ****************************************************************
 # try to connect to azcam
 # ****************************************************************
+<<<<<<< HEAD
 connected = azcam.api.serverconn.connect()  # default host and port
+=======
+connected = azcam.api.server.connect()  # default host and port
+>>>>>>> 6d16f17e732f3544a304977efca75018ccb8d873
 if connected:
     azcam.log("Connected to azcamserver")
 else:
