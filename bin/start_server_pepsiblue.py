@@ -22,7 +22,7 @@ else:
 configscript = "azcam_pepsi.server"
 
 profile = "azcamserver"
-import_command = f"import {configscript}; from azcam.cli import *"
+import_command = f"import {configscript}; from azcam.cli import *; del azcam.cli"
 
 # execute
 cl = (

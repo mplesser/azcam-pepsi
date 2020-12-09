@@ -40,11 +40,7 @@ dthread.start()  # thread just for speed
 # ****************************************************************
 # try to connect to azcam
 # ****************************************************************
-<<<<<<< HEAD
 connected = azcam.api.serverconn.connect()  # default host and port
-=======
-connected = azcam.api.server.connect()  # default host and port
->>>>>>> 6d16f17e732f3544a304977efca75018ccb8d873
 if connected:
     azcam.log("Connected to azcamserver")
 else:
@@ -58,11 +54,6 @@ pardict = genpars.parfile_read(azcam.db.parfile)["azcamconsole"]
 azcam.utils.update_pars(0, pardict)
 wd = genpars.get_par(pardict, "wd", "default")
 azcam.utils.curdir(wd)
-
-# ****************************************************************
-# define names to imported into namespace when using cli
-# # ****************************************************************
-azcam.db.cli_cmds.update({"azcam": azcam, "db": db, "api": api})
 
 # ****************************************************************
 # clean namespace
