@@ -35,9 +35,7 @@ azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
 azcam.db.datafolder = os.path.join("/data", azcam.db.systemname)
 azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
 azcam.db.verbosity = 2  # useful for controller status
-azcam.db.parfile = os.path.join(
-    azcam.db.datafolder, f"parameters_{azcam.db.systemname}.ini"
-)
+azcam.db.parfile = os.path.join(azcam.db.datafolder, f"parameters_{azcam.db.systemname}.ini")
 
 # ****************************************************************
 # enable logging
@@ -105,7 +103,7 @@ remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
 exposure.set_remote_server(remote_imageserver_host, remote_imageserver_port)
 # exposure.set_remote_server()
-exposure.filename.folder = azcam.db.datafolder
+exposure.folder = azcam.db.datafolder
 
 # ****************************************************************
 # header
