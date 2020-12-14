@@ -101,8 +101,8 @@ exposure.display_image = 1
 # remote_imageserver_host = "192.168.164.14"
 remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
-exposure.set_remote_server(remote_imageserver_host, remote_imageserver_port)
-# exposure.set_remote_server()
+exposure.set_remote_imageserver(remote_imageserver_host, remote_imageserver_port)
+# exposure.set_remote_imageserver()
 exposure.folder = azcam.db.datafolder
 
 # ****************************************************************
