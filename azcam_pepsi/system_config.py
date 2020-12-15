@@ -22,4 +22,4 @@ test_mode = 0
 readparfile = 1
 servermode = "interactive"  # prompt, interactive, server
 start_azcamtool = 0
-start_webapp = 0
+start_webserver = 0
