@@ -4,7 +4,7 @@ import sys
 
 import azcam
 import azcam.server
-import azcam.shortcuts
+import azcam.shortcuts_server
 from azcam.cmdserver import CommandServer
 from azcam.system import System
 from azcam.instrument import Instrument
@@ -95,8 +95,8 @@ controller.heater_board_installed = 1
 filetype = "MEF"
 exposure = ExposureArchon()
 azcam.db.exposure = exposure
-exposure.filetype = azcam.db.filetypes[filetype]
-exposure.image.filetype = azcam.db.filetypes[filetype]
+exposure.filetype = exposure.filetypes[filetype]
+exposure.image.filetype = exposure.filetypes[filetype]
 exposure.display_image = 1
 # remote_imageserver_host = "192.168.164.14"
 remote_imageserver_host = "10.0.2.22"
