@@ -18,7 +18,7 @@ azcam.db.systemfolder = f"{os.path.dirname(__file__)}"
 azcam.utils.add_searchfolder(azcam.db.systemfolder, 0)  # top level only
 azcam.utils.add_searchfolder(os.path.join(azcam.db.systemfolder, "common"), 1)
 azcam.db.datafolder = os.path.join("/data", azcam.db.systemname)
-azcam.db.parfile = f"{azcam.db.datafolder}/parameters_{azcam.db.systemname}.ini"
+parfile = f"{azcam.db.datafolder}/parameters_{azcam.db.systemname}.ini"
 
 # ****************************************************************
 # start logging
@@ -47,7 +47,7 @@ else:
 # ****************************************************************
 # read par file
 # ****************************************************************
-pardict = azcam.api.config.parfile_read(azcam.db.parfile)
+pardict = azcam.api.config.read_parfile(parfile)
 azcam.api.config.update_pars(0, pardict["azcamconsole"])
 
 # ****************************************************************
