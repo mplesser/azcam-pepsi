@@ -133,10 +133,8 @@ telescope.enabled = 0
 # ****************************************************************
 # read par file
 # ****************************************************************
-pardict = azcam.api.config.parfile_read(azcam.db.parfile)["azcamserver"]
-azcam.utils.update_pars(0, pardict)
-wd = azcam.api.config.get_par(pardict, "wd", "default")
-azcam.utils.curdir(wd)
+pardict = azcam.api.config.parfile_read(azcam.db.parfile)
+azcam.api.config.update_pars(0, pardict["azcamserver"])
 
 # ****************************************************************
 # custom commands
