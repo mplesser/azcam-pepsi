@@ -64,7 +64,7 @@ class Pepsi(object):
         """
         Pixels in image.
         """
-        reply = azcam.api.exposure.get_par("numpiximage")
+        reply = azcam.api.config.get_par("numpiximage")
 
         return reply
 
