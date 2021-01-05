@@ -7,22 +7,26 @@ Usage: Execute this file from File Explorer
 import os
 import sys
 
+from pathlib import Path, PurePosixPath
+
+rootfolder = Path(__file__).resolve().parent.parent
+rootfolder = rootfolder / "azcam_pepsi"
+rootfolder = str(PurePosixPath(rootfolder))
+
 # select which python to use (virtual environments)
-# python = "/data/code/venvs/qt/Scripts/ipython.exe"
-python = "/python38/Scripts/ipython.exe"
+python = "ipython.exe"
 interactive = "-i"  # "-i" or ""
 
 # parse arguments for command script
 if len(sys.argv) > 1:
     arguments = sys.argv[1:]
 else:
-    arguments = ["-system pepsired"]
-    # arguments = ["-system VIRUS -data \data"]
+    arguments = [""]
 
-configscript = "azcam_pepsi.server"
+profile = "azcamconsole"
 
-profile = "azcamserver"
-import_command = f"import {configscript}; from azcam.cli import *"
+imports = f"import sys; sys.path.append('{rootfolder}')"
+import_command = f"{imports};import server_pepsi; from azcam.cli import *"
 
 # execute
 cl = (

@@ -14,8 +14,6 @@ from azcam_archon.controller_archon import ControllerArchon
 from azcam_archon.exposure_archon import ExposureArchon
 from azcam_archon.tempcon_archon import TempConArchon
 from azcam_ds9.ds9display import Ds9Display
-from azcam_pepsi.detector_sta1600_pepsi import detector_sta1600
-from azcam_pepsi.pepsi_custom import Pepsi
 
 # ****************************************************************
 # parse command line arguments
@@ -36,6 +34,11 @@ azcam.db.datafolder = os.path.join("/data", azcam.db.systemname)
 azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
 azcam.db.verbosity = 2  # useful for controller status
 parfile = os.path.join(azcam.db.datafolder, f"parameters_{azcam.db.systemname}.ini")
+
+# ****************************************************************
+# add folders to search path
+# ****************************************************************
+azcam.utils.add_searchfolder(azcam.db.systemfolder, 0)
 
 # ****************************************************************
 # enable logging
@@ -116,6 +119,8 @@ system = System(azcam.db.systemname, template)
 # ****************************************************************
 # detector
 # ****************************************************************
+from detector_sta1600_pepsi import detector_sta1600
+
 detector_sta1600["ctype"] = ["LINEAR", "LINEAR"]
 exposure.set_detpars(detector_sta1600)
 exposure.fileconverter.set_detector_config(detector_sta1600)
@@ -139,13 +144,15 @@ azcam.api.config.update_pars(0, "azcamserver")
 # ****************************************************************
 # custom commands
 # ****************************************************************
+from pepsi_custom import Pepsi
+
 pepsi = Pepsi()
 
 # ****************************************************************
 # GUIs
 # ****************************************************************
 if 1:
-    import azcam_pepsi.start_azcamtool
+    import start_azcamtool
 
 # ****************************************************************
 # finish
