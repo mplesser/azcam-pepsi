@@ -12,7 +12,7 @@ requirements = [
 
 setup(
     name="azcam-pepsi",
-    version="20.1",
+    version="21.1",
     description="azcam environment for PEPSI",
     long_description=long_description,
     author="Michael Lesser",
