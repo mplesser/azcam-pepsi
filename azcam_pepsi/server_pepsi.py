@@ -14,6 +14,7 @@ from azcam_archon.controller_archon import ControllerArchon
 from azcam_archon.exposure_archon import ExposureArchon
 from azcam_archon.tempcon_archon import TempConArchon
 from azcam_ds9.ds9display import Ds9Display
+from azcam_imageserver.sendimage import SendImage
 
 # ****************************************************************
 # parse command line arguments
@@ -101,11 +102,11 @@ azcam.db.exposure = exposure
 exposure.filetype = exposure.filetypes[filetype]
 exposure.image.filetype = exposure.filetypes[filetype]
 exposure.display_image = 1
+sendimage = SendImage()
 # remote_imageserver_host = "192.168.164.14"
 remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
-exposure.set_remote_imageserver(remote_imageserver_host, remote_imageserver_port)
-# exposure.set_remote_imageserver()
+sendimage.set_remote_imageserver(remote_imageserver_host, remote_imageserver_port, "dataserver")
 exposure.folder = azcam.db.datafolder
 
 # ****************************************************************
