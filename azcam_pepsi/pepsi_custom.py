@@ -29,7 +29,8 @@ class Pepsi(object):
         Initialize AzCam system.
         """
 
-        azcam.api.exposure.reset()
+        exposure = azcam.get_tools("exposure")
+        exposure.reset()
 
         return
 
@@ -38,7 +39,8 @@ class Pepsi(object):
         Reset exposure.
         """
 
-        azcam.api.exposure.reset()
+        exposure = azcam.get_tools("exposure")
+        exposure.reset()
 
         return
 
@@ -47,7 +49,8 @@ class Pepsi(object):
         Open controller shutter.
         """
 
-        reply = azcam.api.exposure.set_shutter(1, 0)
+        exposure = azcam.get_tools("exposure")
+        reply = exposure.set_shutter(1, 0)
 
         return reply
 
@@ -56,7 +59,8 @@ class Pepsi(object):
         Close controller shutter.
         """
 
-        reply = azcam.api.exposure.set_shutter(0, 0)
+        exposure = azcam.get_tools("exposure")
+        reply = exposure.set_shutter(0, 0)
 
         return reply
 
@@ -73,9 +77,9 @@ class Pepsi(object):
         Flush sensor "cycles" times.
         """
 
-        reply = self.db.exposure.flush(cycles)
+        self.db.exposure.flush(cycles)
 
-        return
+        return "OK"
 
     def setexp(self, et: float = 1.0) -> str:
         """
@@ -97,7 +101,8 @@ class Pepsi(object):
         :param image_title: image title, usually surrounded by double quotes.
         """
 
-        reply = azcam.api.exposure.expose1(exposure_time, image_type, image_title)
+        exposure = azcam.get_tools("exposure")
+        reply = exposure.expose1(exposure_time, image_type, image_title)
 
         return reply
 
@@ -106,7 +111,8 @@ class Pepsi(object):
         Send local temp image to remote image server.
         """
 
-        azcam.api.exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
+        exposure = azcam.get_tools("exposure")
+        exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
 
         return
 
@@ -124,7 +130,8 @@ class Pepsi(object):
         Stop current integration and readout.
         """
 
-        azcam.api.exposure.abort()
+        exposure = azcam.get_tools("exposure")
+        exposure.abort()
 
         return
 
