@@ -53,8 +53,8 @@ else:
 # ****************************************************************
 # read par file
 # ****************************************************************
-pardict = azcam.db.api.params.read_parfile(parfile)
-azcam.db.api.params.update_pars(0, pardict["azcamconsole"])
+pardict = azcam.db.params.read_parfile(parfile)
+azcam.db.params.update_pars(0, pardict["azcamconsole"])
 
 # ****************************************************************
 # clean namespace

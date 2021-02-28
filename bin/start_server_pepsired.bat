@@ -1,1 +1,1 @@
-python C:\azcam\azcam-pepsi\bin\start_server_pepsi.py -system pepsired
+python start_server_pepsi.py -system pepsired

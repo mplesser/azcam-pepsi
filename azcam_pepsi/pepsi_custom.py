@@ -19,8 +19,8 @@ class Pepsi(object):
         Creates pepsi object.
         """
 
-        azcam.db.api.pepsi = self
-        azcam.db.cli_cmds["pepsi"] = self
+        azcam.db.pepsi = self
+        azcam.db.cli_objects["pepsi"] = self
 
         return
 
@@ -68,7 +68,7 @@ class Pepsi(object):
         """
         Pixels in image.
         """
-        reply = azcam.db.api.params.get_par("numpiximage")
+        reply = azcam.db.params.get_par("numpiximage")
 
         return reply
 
