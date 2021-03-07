@@ -16,7 +16,7 @@ class Pepsi(object):
 
     def __init__(self):
         """
-        Creates pepsi object.
+        Creates pepsi tool.
         """
 
         azcam.db.pepsi = self
