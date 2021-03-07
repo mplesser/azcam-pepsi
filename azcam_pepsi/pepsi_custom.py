@@ -20,7 +20,7 @@ class Pepsi(object):
         """
 
         azcam.db.pepsi = self
-        azcam.db.cli_objects["pepsi"] = self
+        azcam.db.cli_tools["pepsi"] = self
 
         return
 
