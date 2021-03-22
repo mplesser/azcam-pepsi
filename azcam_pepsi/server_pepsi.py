@@ -50,15 +50,6 @@ azcam.db.logger.start_logging(azcam.db.logger.logfile, "123")
 azcam.log(f"Configuring {azcam.db.systemname}")
 
 # ****************************************************************
-# define and start command server
-# ****************************************************************
-cmdserver = CommandServer()
-cmdserver.port = 2402
-azcam.log(f"Starting command server listening on port {cmdserver.port}")
-# cmdserver.welcome_message = "Welcome - azcam-itl server"
-cmdserver.start()
-
-# ****************************************************************
 # display
 # ****************************************************************
 display = Ds9Display()
@@ -148,6 +139,15 @@ azcam.db.params.update_pars(0, "azcamserver")
 from pepsi_custom import Pepsi
 
 pepsi = Pepsi()
+
+# ****************************************************************
+# define and start command server
+# ****************************************************************
+cmdserver = CommandServer()
+cmdserver.port = 2402
+azcam.log(f"Starting command server listening on port {cmdserver.port}")
+# cmdserver.welcome_message = "Welcome - azcam-itl server"
+cmdserver.start()
 
 # ****************************************************************
 # GUIs
