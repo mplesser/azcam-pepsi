@@ -97,7 +97,9 @@ sendimage = SendImage()
 # remote_imageserver_host = "192.168.164.14"
 remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
-sendimage.set_remote_imageserver(remote_imageserver_host, remote_imageserver_port, "dataserver")
+sendimage.set_remote_imageserver(
+    remote_imageserver_host, remote_imageserver_port, "dataserver"
+)
 exposure.folder = azcam.db.datafolder
 
 # ****************************************************************
