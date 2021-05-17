@@ -6,6 +6,7 @@ Contains the Pepsi class.
 import typing
 
 import azcam
+from azcam import db
 
 
 class Pepsi(object):
@@ -19,8 +20,8 @@ class Pepsi(object):
         Creates pepsi tool.
         """
 
-        azcam.db.pepsi = self
-        azcam.db.cli_tools["pepsi"] = self
+        db.pepsi = self
+        db.cli_tools["pepsi"] = self
 
         return
 
@@ -29,8 +30,7 @@ class Pepsi(object):
         Initialize AzCam system.
         """
 
-        exposure = azcam.get_tools("exposure")
-        exposure.reset()
+        db.exposure.reset()
 
         return
 
@@ -39,8 +39,7 @@ class Pepsi(object):
         Reset exposure.
         """
 
-        exposure = azcam.get_tools("exposure")
-        exposure.reset()
+        db.exposure.reset()
 
         return
 
@@ -49,35 +48,28 @@ class Pepsi(object):
         Open controller shutter.
         """
 
-        exposure = azcam.get_tools("exposure")
-        reply = exposure.set_shutter(1, 0)
-
-        return reply
+        return db.exposure.set_shutter(1, 0)
 
     def close(self):
         """
         Close controller shutter.
         """
 
-        exposure = azcam.get_tools("exposure")
-        reply = exposure.set_shutter(0, 0)
-
-        return reply
+        return db.exposure.set_shutter(0, 0)
 
     def totalcount(self):
         """
         Pixels in image.
         """
-        reply = azcam.db.params.get_par("numpiximage")
 
-        return reply
+        return db.exposure.image.focalplane.numpix_image
 
     def flush(self, cycles=1):
         """
         Flush sensor "cycles" times.
         """
 
-        self.db.exposure.flush(cycles)
+        db.exposure.flush(cycles)
 
         return "OK"
 
@@ -86,7 +78,7 @@ class Pepsi(object):
         Set camera exposure time in seconds.
         """
 
-        self.db.exposure.set_exposuretime(et)
+        db.exposure.set_exposuretime(et)
 
         return "OK"
 
@@ -101,18 +93,14 @@ class Pepsi(object):
         :param image_title: image title, usually surrounded by double quotes.
         """
 
-        exposure = azcam.get_tools("exposure")
-        reply = exposure.expose1(exposure_time, image_type, image_title)
-
-        return reply
+        return db.exposure.expose1(exposure_time, image_type, image_title)
 
     def resend(self):
         """
         Send local temp image to remote image server.
         """
 
-        exposure = azcam.get_tools("exposure")
-        exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
+        db.exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
 
         return
 
@@ -121,7 +109,7 @@ class Pepsi(object):
         Stop current integration and readout.
         """
 
-        self.db.exposure.start_readout()
+        db.exposure.start_readout()
 
         return
 
@@ -130,8 +118,7 @@ class Pepsi(object):
         Stop current integration and readout.
         """
 
-        exposure = azcam.get_tools("exposure")
-        exposure.abort()
+        db.exposure.abort()
 
         return
 
@@ -140,24 +127,20 @@ class Pepsi(object):
         Return current number of pixels remaing in readout.
         """
 
-        reply = self.db.exposure.get_pixels_remaining()
-
-        return reply
+        return db.exposure.get_pixels_remaining()
 
     def pixelcount(self):
         """
         Pixels remaing until readout is finished.
         """
 
-        reply = self.db.get_pixels_remaining()
-
-        return reply
+        return db.get_pixels_remaining()
 
     def get_exposuretime_remaining(self):
         """
         Return exposure time remaining in intration in seconds.
         """
 
-        reply = self.db.exposure.get_exposuretime_remaining()
+        reply = db.exposure.get_exposuretime_remaining()
 
         return float(reply)
