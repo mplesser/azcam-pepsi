@@ -1,4 +1,3 @@
-import datetime
 import os
 import sys
 
@@ -44,9 +43,8 @@ azcam.utils.add_searchfolder(azcam.db.systemfolder, 0)
 # ****************************************************************
 # enable logging
 # ****************************************************************
-tt = datetime.datetime.strftime(datetime.datetime.now(), "%d%b%y_%H%M%S")
-azcam.db.logger.logfile = os.path.join(azcam.db.datafolder, "logs", f"server_{tt}.log")
-azcam.db.logger.start_logging(azcam.db.logger.logfile, "123")
+logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
+azcam.db.logger.start_logging(logfile=logfile)
 azcam.log(f"Configuring {azcam.db.systemname}")
 
 # ****************************************************************

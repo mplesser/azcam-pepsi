@@ -1,6 +1,5 @@
 # azcamconsole config file for OSU4k
 
-import datetime
 import os
 import threading
 
@@ -28,9 +27,8 @@ azcam.utils.add_searchfolder(azcam.db.systemfolder, 0)
 # ****************************************************************
 # start logging
 # ****************************************************************
-tt = datetime.datetime.strftime(datetime.datetime.now(), "%d%b%y_%H%M%S")
-azcam.db.logger.logfile = os.path.join(azcam.db.datafolder, "logs", f"console_{tt}.log")
-azcam.db.logger.start_logging()
+logfile = os.path.join(azcam.db.datafolder, "logs", "console.log")
+azcam.db.logger.start_logging(logfile=logfile)
 azcam.log(f"Configuring console for {azcam.db.systemname}")
 
 # ****************************************************************
