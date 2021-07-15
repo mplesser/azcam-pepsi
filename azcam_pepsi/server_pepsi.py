@@ -4,10 +4,10 @@ import sys
 import azcam
 import azcam.server
 import azcam.shortcuts_server
-from azcam.cmdserver import CommandServer
-from azcam.system import System
-from azcam.instrument import Instrument
-from azcam.telescope import Telescope
+from azcam.tools.cmdserver import CommandServer
+from azcam.tools.system import System
+from azcam.tools.instrument import Instrument
+from azcam.tools.telescope import Telescope
 
 from azcam_archon.controller_archon import ControllerArchon
 from azcam_archon.exposure_archon import ExposureArchon
@@ -96,7 +96,9 @@ exposure.send_image = 1
 # remote_imageserver_host = "192.168.164.14"
 remote_imageserver_host = "10.0.2.22"
 remote_imageserver_port = 6543
-sendimage.set_remote_imageserver(remote_imageserver_host, remote_imageserver_port, "dataserver")
+sendimage.set_remote_imageserver(
+    remote_imageserver_host, remote_imageserver_port, "dataserver"
+)
 exposure.folder = azcam.db.datafolder
 
 # ****************************************************************

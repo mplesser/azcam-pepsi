@@ -41,7 +41,7 @@ dthread.start()  # thread just for speed
 # ****************************************************************
 # console tools
 # ****************************************************************
-azcam.console_tools.load()
+azcam.tools.load_console_tools()
 
 # ****************************************************************
 # try to connect to azcam
