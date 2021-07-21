@@ -100,7 +100,7 @@ class Pepsi(object):
         Send local temp image to remote image server.
         """
 
-        db.exposure.image.send_image(f"{self.exposure.temp_image_file}.fits")
+        azcam.db.sendimage.send_image(f"{self.exposure.temp_image_file}.fits")
 
         return
 
